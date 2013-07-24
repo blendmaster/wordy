@@ -1,0 +1,29 @@
+group = "wordy"
+version = "0.1"
+
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'application'
+
+mainClassName = 'w.rdy.Wordy'
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  testCompile 'co.freeside:betamax:1.1.2'
+  testCompile 'junit:junit:4.11'
+}
+
+jar {
+  from { configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) } }
+  manifest { attributes 'Main-Class': mainClassName }
+}
+
+task make(type: Exec, dependsOn: 'build') {
+  description = 'create shell executable (with appended jar)'
+  inputs.dir jar.destinationDir
+  outputs.file file('wordy')
+  commandLine './build.sh'
+}
