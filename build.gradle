@@ -16,14 +16,18 @@ dependencies {
 
   compile 'oauth.signpost:signpost-commonshttp4:1.2.1.2'
 
-  testCompile 'co.freeside:betamax:1.1.2'
   testCompile 'junit:junit:4.11'
+  testCompile 'co.freeside:betamax:1.1.2'
+  // XXX betamax depends on groovy, but not through maven, apparently.
+  testCompile 'org.codehaus.groovy:groovy-all:1.8.8'
 }
 
 test {
   // XXX java 8: http://issues.gradle.org//browse/GRADLE-2846
   scanForTestClasses = false
   include 'w/rdy/**'
+
+  testLogging.showStandardStreams = true
 }
 
 jar {

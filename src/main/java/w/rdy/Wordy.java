@@ -24,12 +24,7 @@ public static void main(String[] args) {
 
   System.out.printf("Ranking literacy for account %s ...\n", accountId);
 
-  Function<String, OptionalDouble> rank = LiteracyRank.rank.apply(contextIo).apply(accountId);
-
-  Map<String, Double> ranks =
-      contextIo.getContacts(accountId, Contact.ContactField.RECEIVED_COUNT, ContextIo.SortOrder.DESC).matches.stream()
-      .map(Contact::getEmail)
-      .collect(Collectors.toMap(Function.<String>identity(), rank.andThen(d -> d.orElse(0))));
+  Map<String, Double> ranks = getRank(accountId, contextIo);
 
   int maxLen = ranks.keySet().stream().mapToInt(String::length).max().orElse(0);
   ranks.entrySet().stream().sorted((b, a) -> a.getValue().compareTo(b.getValue())).forEach(entry ->
@@ -37,6 +32,14 @@ public static void main(String[] args) {
   );
 
   System.exit(0);
+}
+
+public static Map<String, Double> getRank(String accountId, ContextIo contextIo) {
+  Function<String, OptionalDouble> rank = LiteracyRank.rank.apply(contextIo).apply(accountId);
+
+  return contextIo.getContacts(accountId, Contact.ContactField.RECEIVED_COUNT, ContextIo.SortOrder.DESC).matches.stream()
+  .map(Contact::getEmail)
+  .collect(Collectors.toMap(Function.<String>identity(), rank.andThen(d -> d.orElse(0))));
 }
 
 }
