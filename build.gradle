@@ -11,19 +11,19 @@ repositories {
   mavenCentral()
 }
 
-configurations {
-  compileOnly
-  testCompileOnly { extendsFrom compileOnly }
-}
-
 dependencies {
-
   compile 'com.fasterxml.jackson.core:jackson-databind:2.2.2'
 
   compile 'oauth.signpost:signpost-commonshttp4:1.2.1.2'
 
   testCompile 'co.freeside:betamax:1.1.2'
   testCompile 'junit:junit:4.11'
+}
+
+test {
+  // XXX java 8: http://issues.gradle.org//browse/GRADLE-2846
+  scanForTestClasses = false
+  include 'w/rdy/**'
 }
 
 jar {
