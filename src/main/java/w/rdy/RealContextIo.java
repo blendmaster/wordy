@@ -37,14 +37,14 @@ public RealContextIo(AbstractHttpClient client, String base, String apiKey, Stri
 
 @Override
 public ContactsList getContacts(String accountId, Contact.ContactField sortBy, SortOrder order) {
-  return getAccount(accountId, String.format("contacts?sort_by=%s&order=%s", sortBy, order),
+  return getAccount(accountId, String.format("contacts?sort_by=%s&order=%s&limit=10", sortBy, order),
                     CONTACTS_LIST);
 }
 
 @Override
 public List<Message> getMessages(String accountId, String email, boolean includeBody) {
   return getAccount(accountId,
-                    String.format("messages?email=%s&include_body=%s", email, includeBody ? "1" : "0"),
+                    String.format("messages?email=%s&include_body=%s&limit=10", email, includeBody ? "1" : "0"),
                     MESSAGES);
 }
 

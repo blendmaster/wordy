@@ -19,20 +19,13 @@ public int getCount() {
   return count;
 }
 
-public String getName() {
-  return name;
-}
-
 public final String email;
 public final int count;
-public final String name;
 
 public Contact(@JsonProperty("email") String email,
-               @JsonProperty("count") int count,
-               @JsonProperty("name") String name) {
+               @JsonProperty("count") int count) {
   this.email = requireNonNull(email);
   this.count = requireNonNull(count);
-  this.name = requireNonNull(name);
 }
 
 public static enum ContactField {

@@ -24,6 +24,7 @@ public Message(@JsonProperty("body") List<BodyPart> body) {
   this.body = body != null ? Collections.unmodifiableList(body) : Collections.emptyList();
 }
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public static class BodyPart {
 
   public String getContent() {
