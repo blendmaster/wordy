@@ -2,25 +2,37 @@ package w.rdy.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
-import lombok.NonNull;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * Context.io contact resource, incomplete;
  */
-@Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Contact {
-@NonNull public final String email;
-@NonNull public final int count;
-@NonNull public final String name;
+
+public String getEmail() {
+  return email;
+}
+
+public int getCount() {
+  return count;
+}
+
+public String getName() {
+  return name;
+}
+
+public final String email;
+public final int count;
+public final String name;
 
 public Contact(@JsonProperty("email") String email,
                @JsonProperty("count") int count,
                @JsonProperty("name") String name) {
-  this.email = email;
-  this.count = count;
-  this.name = name;
+  this.email = requireNonNull(email);
+  this.count = requireNonNull(count);
+  this.name = requireNonNull(name);
 }
 
 public static enum ContactField {
