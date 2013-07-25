@@ -4,8 +4,10 @@ import org.apache.http.impl.client.AbstractHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import w.rdy.domain.Contact;
 
+import java.util.Map;
 import java.util.OptionalDouble;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class Wordy {
 
@@ -24,10 +26,15 @@ public static void main(String[] args) {
 
   Function<String, OptionalDouble> rank = LiteracyRank.rank.apply(contextIo).apply(accountId);
 
-  contextIo.getContacts(accountId, Contact.ContactField.RECEIVED_COUNT, ContextIo.SortOrder.DESC).matches.stream()
+  Map<String, Double> ranks =
+      contextIo.getContacts(accountId, Contact.ContactField.RECEIVED_COUNT, ContextIo.SortOrder.DESC).matches.stream()
       .map(Contact::getEmail)
-      .map(email -> String.format("%s : %f", email, rank.apply(email).orElse(0)))
-      .forEach(System.out::println);
+      .collect(Collectors.toMap(Function.<String>identity(), rank.andThen(d -> d.orElse(0))));
+
+  int maxLen = ranks.keySet().stream().mapToInt(String::length).max().orElse(0);
+  ranks.entrySet().stream().sorted((b, a) -> a.getValue().compareTo(b.getValue())).forEach(entry ->
+    System.out.printf("%-" + (maxLen + 1) + "s : %f\n", entry.getKey(), entry.getValue())
+  );
 
   System.exit(0);
 }
