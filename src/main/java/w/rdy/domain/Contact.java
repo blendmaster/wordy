@@ -22,4 +22,18 @@ public Contact(@JsonProperty("email") String email,
   this.count = count;
   this.name = name;
 }
+
+public static enum ContactField {
+  EMAIL("email"), COUNT("count"), RECEIVED_COUNT("received_count"), SENT_COUNT("sent_count");
+  public final String param;
+
+  ContactField(String param) {
+    this.param = param;
+  }
+
+  @Override
+  public String toString() {
+    return param;
+  }
+}
 }

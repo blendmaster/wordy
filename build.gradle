@@ -26,9 +26,11 @@ sourceSets {
 }
 
 dependencies {
-  compile group: "org.projectlombok", name: "lombok", version: "0.12.0"
+  compileOnly group: "org.projectlombok", name: "lombok", version: "0.12.0"
 
   compile 'com.fasterxml.jackson.core:jackson-databind:2.2.2'
+
+  compile 'oauth.signpost:signpost-commonshttp4:1.2.1.2'
 
   testCompile 'co.freeside:betamax:1.1.2'
   testCompile 'junit:junit:4.11'
